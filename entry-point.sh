@@ -7,11 +7,12 @@ else
     sed -i "s/storage.hostname=cassandra/storage.hostname=$CASSANDRA_HOST/" /srv/titan-1.0.0-hadoop1/conf/titan-cassandra-es.properties
 fi
 
+echo $CASSANDRA_USERNAME
 if [ -z "$CASSANDRA_USERNAME" ]; then
     echo "\$CASSANDRA_USERNAME is not set, using the default username (cassandra)"
 else
     echo "Setting storage.username=$CASSANDRA_USERNAME"
-    sed -i "s/storage.username=cassandra/storage.username=$CASSANDRA_HOST/" /srv/titan-1.0.0-hadoop1/conf/titan-cassandra-es.properties
+    sed -i "s/storage.username=cassandra/storage.username=$CASSANDRA_USERNAME/" /srv/titan-1.0.0-hadoop1/conf/titan-cassandra-es.properties
 fi
 
 if [ -z "$CASSANDRA_PASSWORD" ]; then
