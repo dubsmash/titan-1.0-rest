@@ -1,5 +1,5 @@
 FROM debian:jessie
-MAINTAINER Roman Suvorov windj007@gmail.com
+MAINTAINER Tim Specht tim@dubsmash.com
 
 RUN echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list && \
     apt-get update && \
