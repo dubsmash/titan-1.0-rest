@@ -1,9 +1,9 @@
 FROM debian:jessie
-MAINTAINER Tim Specht tim@dubsmash.com
+MAINTAINER Tim Specht <tim@dubsmash.com>
 
 RUN echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list && \
     apt-get update && \
-    apt-get install -yqq openjdk-8-jre-headless wget unzip
+    apt-get install -yqq openjdk-8-jre-headless wget unzip netcat
 
 RUN wget -O /srv/titan-1.0.0-hadoop1.zip http://s3.thinkaurelius.com/downloads/titan/titan-1.0.0-hadoop1.zip && \
     cd /srv && \

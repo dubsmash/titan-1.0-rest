@@ -2,9 +2,11 @@
 
 if [ -z "$CASSANDRA_HOST" ]; then
     echo "\$CASSANDRA_HOST is not set, using the default name (cassandra)"
+    host="cassandra"
 else
     echo "Setting storage.hostname=$CASSANDRA_HOST"
     sed -i "s/storage.hostname=cassandra/storage.hostname=$CASSANDRA_HOST/" /srv/titan-1.0.0-hadoop1/conf/titan-cassandra-es.properties
+    host=$CASSANDRA_HOST
 fi
 
 echo $CASSANDRA_USERNAME
@@ -27,6 +29,23 @@ if [ -z "$ELASTICSEARCH_HOST" ]; then
 else
     echo "Setting index.search.hostname=$ELASTICSEARCH_HOST"
     sed -i "s/index.search.hostname=es/index.search.hostname=$ELASTICSEARCH_HOST/" /srv/titan-1.0.0-hadoop1/conf/titan-cassandra-es.properties
+fi
+
+seconds=0
+timeout=60
+echo -n "Waiting for cassandra. "
+while [ "$seconds" -lt "$timeout" ] && ! nc -z -w1 $host 9042
+do
+    echo -n "."
+    seconds=$((seconds+1))
+    sleep 1
+done
+
+if [ "$seconds" -lt "$timeout" ]; then
+    echo "up!"
+else
+    echo "ERR: unable to connect"
+    exit 1
 fi
 
 exec $@
